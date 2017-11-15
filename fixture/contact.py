@@ -72,7 +72,6 @@ class ContactHelper:
     def delete_first_contact(self):
         # we login on page with contacts
         wd = self.app.wd
-        self.app.open_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletition
@@ -82,7 +81,6 @@ class ContactHelper:
     def edit_first_contact(self, contact):
         # we login on page with contacts
         wd = self.app.wd
-        self.app.open_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # edit
@@ -96,7 +94,6 @@ class ContactHelper:
     def view_details_and_modify_first(self,contact):
         # we login on page with contacts
         wd = self.app.wd
-        self.app.open_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # view
@@ -112,7 +109,6 @@ class ContactHelper:
     def add_first_contact_to_first_group(self):
         # we login on page with contacts
         wd = self.app.wd
-        self.app.open_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # add to first group
