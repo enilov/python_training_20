@@ -78,5 +78,56 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
 
+    def edit_first_contact(self, contact):
+        # we login on page with contacts
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # edit
+        wd.find_element_by_xpath("// table[ @ id = 'maintable'] / tbody / tr[2] / td[8] / a / img").click()
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys(contact.first_name + '_edited')
+        # submit
+        wd.find_element_by_xpath("// div[ @ id = 'content'] / form[1] / input[22]").click()
+
+    def view_details_and_modify_first(self,contact):
+        # we login on page with contacts
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # view
+        wd.find_element_by_xpath("// table[ @ id = 'maintable'] / tbody / tr[2] / td[7] / a / img").click()
+        # modify
+        wd.find_element_by_name("modifiy").click()
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys(contact.first_name + '_modify')
+        # submit
+        wd.find_element_by_xpath("// div[ @ id = 'content'] / form[1] / input[22]").click()
+
+    def add_first_contact_to_first_group(self):
+        # we login on page with contacts
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # add to first group
+        wd.find_element_by_name("add").click()
+        # go to group page
+        wd.find_element_by_link_text('group page ""')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
