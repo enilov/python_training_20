@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from model.contact import Contact
 
 
 class ContactHelper:
@@ -93,18 +94,16 @@ class ContactHelper:
         # go to group page
         wd.find_element_by_xpath("//div/div[4]/div/i/a")
 
-
-
-
-
-
-
-
-
-
-
-
-
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        contacts = []
+        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+            columns = element.find_elements_by_tag_name("td")
+            id = columns[0].find_element_by_tag_name("input").get_attribute("value")
+            first_name = columns[2].text
+            contacts.append(Contact(first_name=first_name, id=id))
+        return contacts
 
 
 
