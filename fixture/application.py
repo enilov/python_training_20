@@ -7,7 +7,6 @@ from fixture.contact import ContactHelper
 
 
 class Application:
-
     def __init__(self, browser, baseurl):
         if browser == "firefox":
             self.wd = webdriver.Firefox()
