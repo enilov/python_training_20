@@ -2,6 +2,7 @@
 from model.contact import Contact
 
 
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -15,6 +16,7 @@ class ContactHelper:
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.contact_cache = None
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -46,7 +48,14 @@ class ContactHelper:
         self.select_first_contact()
         # submit deletition
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
-        wd.switch_to_alert().accept()
+        alert = wd.switch_to_alert()
+        # sometimes alert is not accepted in my browser :(
+        try:
+            alert.accept()
+            alert.accept()
+        except:
+            pass
+        self.contact_cache = None
 
     def edit_first_contact(self, new_contact_data):
         # we login on page with contacts
@@ -59,6 +68,7 @@ class ContactHelper:
         self.fill_contact_form(new_contact_data)
         # submit
         wd.find_element_by_xpath("// div[ @ id = 'content'] / form[1] / input[22]").click()
+        self.contact_cache = None
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -77,6 +87,7 @@ class ContactHelper:
         self.fill_contact_form(new_contact_data)
         # submit
         wd.find_element_by_xpath("// div[ @ id = 'content'] / form[1] / input[22]").click()
+        self.contact_cache = None
 
     def count(self):
         wd = self.app.wd
@@ -94,16 +105,19 @@ class ContactHelper:
         # go to group page
         wd.find_element_by_xpath("//div/div[4]/div/i/a")
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.app.open_home_page()
-        contacts = []
-        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
-            columns = element.find_elements_by_tag_name("td")
-            id = columns[0].find_element_by_tag_name("input").get_attribute("value")
-            first_name = columns[2].text
-            contacts.append(Contact(first_name=first_name, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.app.open_home_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+                columns = element.find_elements_by_tag_name("td")
+                id = columns[0].find_element_by_tag_name("input").get_attribute("value")
+                first_name = columns[2].text
+                self.contact_cache.append(Contact(first_name=first_name, id=id))
+        return list(self.contact_cache)
 
 
 
